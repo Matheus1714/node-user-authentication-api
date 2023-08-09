@@ -12,4 +12,4 @@ app.use(express.urlencoded({ extended: true }))
 app.use(userRoute)
 app.use(statusRoute)
 
-app.listen(process.env.PORT, () => console.log('Listen express'))
+app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.PORT}`))
