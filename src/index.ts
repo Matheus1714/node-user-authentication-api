@@ -1,8 +1,10 @@
 import express from 'express'
 import statusRoute from './routes/status.route'
 import userRoute from './routes/users.route'
+import dotenv from 'dotenv'
+import db from './db'
 
-require('dotenv').config()
+dotenv.config()
 
 const app = express()
 
