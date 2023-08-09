@@ -5,37 +5,57 @@ import userRepository from '../repositories/user.repository'
 const usersRoute = Router()
 
 usersRoute.get('/users', async (req: Request, res: Response, next:NextFunction) => {
-    const users = await userRepository.findAllUsers()
-    res.status(StatusCodes.OK).send(users)
+    try{
+        const users = await userRepository.findAllUsers()
+        res.status(StatusCodes.OK).send(users)
+    }catch(error){
+        next(error)
+    }
 })
 
 usersRoute.get('/users/:uuid', async (req: Request<{ uuid: string }>, res: Response, next:NextFunction) => {
-    const { uuid } = req.params
-    const user = await userRepository.findById(uuid)
-    res.status(StatusCodes.OK).send(user)
+    try{
+        const { uuid } = req.params
+        const user = await userRepository.findById(uuid)
+        res.status(StatusCodes.OK).send(user)
+    }catch(error){
+        next(error)
+    }
 })
 
 usersRoute.post('/users', async (req: Request, res: Response, next:NextFunction) => {
-    const newUser = req.body
-    const uuid = await userRepository.create(newUser)
-    res.status(StatusCodes.CREATED).send(uuid)
+    try{
+        const newUser = req.body
+        const uuid = await userRepository.create(newUser)
+        res.status(StatusCodes.CREATED).send(uuid)
+    }catch(error){
+        next(error)
+    }
 })
 
 usersRoute.put('/users/:uuid', async (req: Request<{ uuid: string }>, res: Response, next:NextFunction) => {
-    const {uuid} = req.params
-    const modifiedUser  = req.body
-
-    modifiedUser.uuid = uuid
-
-    await userRepository.update(modifiedUser)
-
-    res.status(StatusCodes.OK).send()
+    try{
+        const {uuid} = req.params
+        const modifiedUser  = req.body
+    
+        modifiedUser.uuid = uuid
+    
+        await userRepository.update(modifiedUser)
+    
+        res.status(StatusCodes.OK).send()
+    }catch(error){
+        next(error)
+    }
 })
 
 usersRoute.delete('/users/:uuid', async (req: Request<{ uuid: string }>, res: Response, next:NextFunction) => {
-    const {uuid} = req.params
-    await userRepository.remove(uuid)
-    res.sendStatus(StatusCodes.OK)
+    try{
+        const {uuid} = req.params
+        await userRepository.remove(uuid)
+        res.sendStatus(StatusCodes.OK)
+    }catch(error){
+        next(error)
+    }
 })
 
 export default usersRoute
